@@ -46,13 +46,3 @@ jobs:
         podman rm test-container || true
 
         
-      deploy:
-        needs: build-and-test
-        runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-
-        steps:
-        - name: Deploy notification
-          run: |
-            echo "Deployment would happen here..."
-            echo "Succesfully deployed version ${{ github.sha }}"
