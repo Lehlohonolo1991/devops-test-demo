@@ -39,10 +39,5 @@ jobs:
         # Basic security check of container
         podman inspect devops-test-demo:${{ github.sha }}
 
-    - name: Clean up
-      if: always()
-      run: |
-        podman stop test-container || true
-        podman rm test-container || true
 
         
