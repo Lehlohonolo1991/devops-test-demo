@@ -27,9 +27,9 @@ jobs:
       run: | 
         podman build -t devops-test-demo:${{ github.sha }} .
 
-    - name: Test container
+    - name: Start container
       run: |
-        podman run -d --name test-container -p 8081:80 devops-test-demo:${{ github.sha }}
+        podman run -p 8081:80 --name test-container devops-test-demo:${{ github.sha }}
         #wait for container to start
         sleep 10
         for initialisation 
