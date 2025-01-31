@@ -20,7 +20,7 @@ jobs:
 
     - name: Install Podman
       run: |
-        sudo dnf install update
+        sudo dnf update
         sudo dnf install -y podman
 
     - name: Build container
