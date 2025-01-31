@@ -18,11 +18,6 @@ jobs:
         echo "Setting up environment..."
         echo "GITHUB_SHA=$GITHUB_SHA" >> $GITHUB_ENV
 
-    - name: Install Podman
-      run: |
-        sudo dnf install update
-        sudo dnf install -y podman
-
     - name: Build container
       run: | 
         podman build -t devops-test-demo:${{ github.sha }} .
@@ -31,13 +26,9 @@ jobs:
       run: |
         podman run -d --name test-container -p 8081:80 devops-test-demo:${{ github.sha }}
         #wait for container to start
-        sleep 10
-for initialisation podman ps | grep test-container || { echo "Container not running"; exit 1; }
-
-    - name: Check container logs
-      run: |
-        podman logs test-container || true
-
+        sleep 5
+        #Test if container is running
+        podman ps | grep test-container
 
     - name: Lint HTML
       run: |
@@ -48,5 +39,10 @@ for initialisation podman ps | grep test-container || { echo "Container not runn
         # Basic security check of container
         podman inspect devops-test-demo:${{ github.sha }}
 
+    - name: Clean up
+      if: always()
+      run: |
+        podman stop test-container || true
+        podman rm test-container || true
 
         
