@@ -32,7 +32,8 @@ jobs:
         podman run -d --name test-container -p 8081:80 devops-test-demo:${{ github.sha }}
         #wait for container to start
         sleep 10
-for initialisation podman ps | grep test-container || { echo "Container not running"; exit 1; }
+        for initialisation 
+                podman ps | grep test-container || { echo "Container not running"; exit 1; }
 
     - name: Check container logs
       run: |
